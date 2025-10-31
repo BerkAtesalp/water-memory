@@ -1,6 +1,31 @@
 import { motion } from "framer-motion";
 import AIGenerator from "./AIGenerator"; // ✅ AI Narrator bileşeni eklendi
 
+// 🧩 Europeana XML Export Fonksiyonu
+const exportToEuropeanaXML = (storyData) => {
+  const xml = `
+  <record xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <dc:title>${storyData.name}</dc:title>
+    <dc:creator>${storyData.metadata?.creator || "Unknown"}</dc:creator>
+    <dc:subject>${storyData.type}</dc:subject>
+    <dc:description>${storyData.story}</dc:description>
+    <dc:publisher>${storyData.metadata?.repository || "Unknown"}</dc:publisher>
+    <dc:date>${storyData.metadata?.dateCreated || "Unknown"}</dc:date>
+    <dc:type>${storyData.metadata?.format || "Unknown"}</dc:type>
+    <dc:identifier>${storyData.identifier}</dc:identifier>
+    <dc:language>${storyData.metadata?.language || "Unknown"}</dc:language>
+    <dc:coverage>${storyData.metadata?.coverage || "Unknown"}</dc:coverage>
+    <dc:rights>${storyData.metadata?.rights || "Unknown"}</dc:rights>
+  </record>
+  `.trim();
+
+  const blob = new Blob([xml], { type: "application/xml" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `${storyData.name.replace(/\s+/g, "_")}_Europeana.xml`;
+  link.click();
+};
+
 function StoryPanel({ storyData, onClose }) {
   if (!storyData) return null;
 
@@ -126,7 +151,9 @@ function StoryPanel({ storyData, onClose }) {
       {/* 🔗 Kaynaklar */}
       {storyData.sources && (
         <div style={{ marginTop: "10px" }}>
-          <h4 style={{ color: "#03045e", marginBottom: "6px" }}>Archival Sources</h4>
+          <h4 style={{ color: "#03045e", marginBottom: "6px" }}>
+            Archival Sources
+          </h4>
           <ul style={{ paddingLeft: "18px" }}>
             {storyData.sources.map((src, i) => (
               <li key={i} style={{ marginBottom: "5px" }}>
@@ -151,7 +178,7 @@ function StoryPanel({ storyData, onClose }) {
         </div>
       )}
 
-      {/* 💾 Metadata İndir */}
+      {/* 💾 Metadata İndir (JSON) */}
       <button
         onClick={downloadMetadata}
         style={{
@@ -167,6 +194,24 @@ function StoryPanel({ storyData, onClose }) {
         }}
       >
         ⬇ Download Metadata (JSON)
+      </button>
+
+      {/* 💾 Europeana XML Export */}
+      <button
+        onClick={() => exportToEuropeanaXML(storyData)}
+        style={{
+          marginTop: "10px",
+          backgroundColor: "#0077b6",
+          color: "white",
+          padding: "8px 14px",
+          borderRadius: "6px",
+          border: "none",
+          cursor: "pointer",
+          fontWeight: "500",
+          width: "100%",
+        }}
+      >
+        💾 Export as Europeana XML
       </button>
     </motion.div>
   );

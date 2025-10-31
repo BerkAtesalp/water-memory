@@ -3,7 +3,38 @@ import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import { motion } from "framer-motion";
 import { waterStories } from "../data/waterStories";
 import StoryPanel from "./StoryPanel";
+import { downloadOaiXml } from "../oai"; // ✅ OAI-PMH export eklendi
 import "leaflet/dist/leaflet.css";
+
+// 💾 Europeana XML olarak tüm hikâyeleri dışa aktar
+const exportAllToEuropeanaXML = () => {
+  const xmlRecords = waterStories
+    .map(
+      (story) => `
+    <record xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <dc:title>${story.name}</dc:title>
+      <dc:creator>${story.metadata?.creator || "Unknown"}</dc:creator>
+      <dc:subject>${story.type}</dc:subject>
+      <dc:description>${story.story}</dc:description>
+      <dc:publisher>${story.metadata?.repository || "Unknown"}</dc:publisher>
+      <dc:date>${story.metadata?.dateCreated || "Unknown"}</dc:date>
+      <dc:type>${story.metadata?.format || "Unknown"}</dc:type>
+      <dc:identifier>${story.identifier}</dc:identifier>
+      <dc:language>${story.metadata?.language || "Unknown"}</dc:language>
+      <dc:coverage>${story.metadata?.coverage || "Unknown"}</dc:coverage>
+      <dc:rights>${story.metadata?.rights || "Unknown"}</dc:rights>
+    </record>`
+    )
+    .join("\n");
+
+  const fullXML = `<?xml version="1.0" encoding="UTF-8"?>\n<collection>\n${xmlRecords}\n</collection>`;
+
+  const blob = new Blob([fullXML], { type: "application/xml" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "Venice_Water_Memory_Collection_Europeana.xml";
+  link.click();
+};
 
 function WaterMap() {
   const [selectedStory, setSelectedStory] = useState(null);
@@ -71,16 +102,51 @@ function WaterMap() {
           cursor: "pointer",
           fontWeight: "500",
           boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
-          transition: "0.3s ease",
         }}
-        onMouseEnter={(e) =>
-          (e.target.style.backgroundColor = "#00b4d8")
-        }
-        onMouseLeave={(e) =>
-          (e.target.style.backgroundColor = "#0077b6")
-        }
       >
         💾 Export All Metadata (JSON)
+      </button>
+
+      {/* 🗂️ Export All as Europeana XML */}
+      <button
+        onClick={exportAllToEuropeanaXML}
+        style={{
+          position: "absolute",
+          top: "70px",
+          right: "20px",
+          zIndex: 1000,
+          backgroundColor: "#023e8a",
+          color: "white",
+          border: "none",
+          borderRadius: "8px",
+          padding: "10px 18px",
+          cursor: "pointer",
+          fontWeight: "500",
+          boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
+        }}
+      >
+        🗂️ Export All as Europeana XML
+      </button>
+
+      {/* 🪶 Export as OAI-PMH XML */}
+      <button
+        onClick={downloadOaiXml}
+        style={{
+          position: "absolute",
+          top: "120px",
+          right: "20px",
+          zIndex: 1000,
+          backgroundColor: "#007f5f",
+          color: "white",
+          border: "none",
+          borderRadius: "8px",
+          padding: "10px 18px",
+          cursor: "pointer",
+          fontWeight: "500",
+          boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
+        }}
+      >
+        🪶 Export OAI-PMH XML
       </button>
 
       {/* 🗺️ Harita */}
@@ -146,7 +212,7 @@ function WaterMap() {
         onClose={() => setSelectedStory(null)}
       />
 
-      {/* 📜 UNESCO Water Heritage etiketi (geri geldi 🎯) */}
+      {/* 📜 UNESCO Water Heritage etiketi */}
       <div
         style={{
           position: "absolute",
