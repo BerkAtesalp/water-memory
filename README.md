@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+🌊 Venice Water Memory — Digital Heritage Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Author: Berk Ateşalp
+Project Type: Interactive Cultural Heritage Map + AI Narrator
+Frameworks: React, Leaflet, OpenAI API, Europeana XML, OAI-PMH
+License: CC BY 4.0
 
-## Available Scripts
+🏛️ Project Overview
 
-In the project directory, you can run:
+The Venice Water Memory project reimagines Venice’s relationship with water as a digital heritage archive and storytelling platform.
+Each canal, well, or lagoon site becomes both a metadata record and a living narrative, linking tangible geography with intangible memory.
 
-### `npm start`
+Through this approach, the project bridges:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Cultural heritage documentation (archival accuracy)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Digital storytelling (AI-generated micro-narratives)
 
-### `npm test`
+Open data interoperability (Europeana and UNESCO Water Heritage standards)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🗺️ Core Features
 
-### `npm run build`
+🗃️ Interactive Water Map — Each point on the Venice map represents a historical water site (craft, faith, trade, ritual, infrastructure).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+💧 Archival Metadata — Every location includes metadata structured according to the Dublin Core standard.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+🤖 AI Water Narrator — An AI component generates poetic, site-specific stories, blending memory and imagination.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+💾 Data Export Options:
 
-### `npm run eject`
+JSON → for research and data analysis
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Europeana XML → archival / cultural heritage compatibility
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+OAI-PMH XML → metadata harvesting for digital repositories
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+🧠 Technology Stack
+Layer	Tools & Libraries	Purpose
+Frontend	React.js, Leaflet.js, Framer Motion	Interactive map and UI animation
+Data	Custom JSON dataset (waterStories.js)	Heritage site metadata
+AI	OpenAI GPT-4o API	Narrative generation
+Archival	Europeana XML, OAI-PMH protocol	Metadata export & archival compliance
+Audio	Ambient water soundscape	Immersive environment
+🗂️ Archival & Metadata Standards
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The dataset follows the Dublin Core model (ISO 15836), ensuring interoperability across Europeana and UNESCO systems.
 
-## Learn More
+Key Fields:
+dc:title, dc:creator, dc:subject, dc:description,
+dc:date, dc:type, dc:coverage, dc:rights, dc:language
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Supported Formats:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+JSON (Technical Dataset) — developer-friendly structure
 
-### Code Splitting
+Europeana XML (Archival Format) — compliant with Europeana Data Model (EDM)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+OAI-PMH XML (Harvestable Protocol) — compatible with Open Archives Initiative
 
-### Analyzing the Bundle Size
+These export functions allow the Water Memory dataset to act as a data provider for digital heritage infrastructures.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+🌐 AI Narrative Layer
 
-### Making a Progressive Web App
+Each archival item contains:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Structured metadata (historical accuracy)
 
-### Advanced Configuration
+AI-generated narration (interpretive storytelling)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+This dual structure transforms the project from a static database into a “living archive” — a system where code and culture coexist, and every dataset becomes an act of storytelling.
 
-### Deployment
+🔭 Future Development
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+🌊 Integration with Europeana Metis Sandbox for ingestion testing
 
-### `npm run build` fails to minify
+🪶 Persistent identifier (DOI) registration via Zenodo
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+🧭 Expansion to new collections: Venetian Trade Routes, Lagoon Ecosystems, Water Festivals
+
+🗣️ Optional AI voice synthesis for spoken narration (TTS)
+
+📜 License
+
+All metadata and AI-generated texts are released under
+Creative Commons Attribution 4.0 International (CC BY 4.0).
+This ensures open access, sharing, and educational reuse.
+
+💬 Project Statement
+
+“Water has memory — not only in its reflections, but in the crafts, rituals, and voices that once flowed through Venice.
+This project reawakens those traces, merging historical archives with digital intelligence,
+so that the lagoon itself can speak again.”
+
+💡 Keywords:
+Digital Humanities · Cultural Heritage · Europeana · UNESCO · AI Storytelling · Venice · Water Memory
