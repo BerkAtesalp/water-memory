@@ -1,6 +1,6 @@
 # 🌊 Venice Water Memory
 
-An interactive digital heritage project visualizing the **water-related memory of Venice**, combining storytelling, archival metadata, and AI narration — compatible with **Europeana** and **Dublin Core** metadata standards.
+An interactive digital heritage project visualizing the **water-related memory of Venice**, combining storytelling, archival metadata, and AI narration — compatible with **Europeana**, **Dublin Core**, and **OAI-PMH** metadata standards.
 
 ---
 
@@ -11,7 +11,7 @@ Each location features:
 - 🏛️ Archival metadata (Europeana / Dublin Core format)  
 - 🖼️ Historical imagery  
 - 🤖 AI-powered narration (“Water Memory Narrator”)  
-- 🌍 Optional export in Europeana XML & OAI-PMH compatible formats  
+- 🌍 Export options in JSON and Europeana XML (OAI-PMH ready)
 
 ---
 
@@ -21,10 +21,10 @@ Each location features:
 |-------|-------------|----------|
 | Frontend | React + Vite | Core app framework |
 | Map | React Leaflet | Interactive water heritage map |
-| Animation | Framer Motion | Water ripple & fade-in UI animations |
+| Animation | Framer Motion | Water ripple & ambient fade animations |
 | AI Narration | OpenAI GPT-4o mini (via Proxy) | Generates poetic water stories |
 | Data Export | JSON / Europeana XML / OAI-PMH Ready | Archival metadata export |
-| Sound | Ambient Water Loop | Immersive audio background |
+| Sound | Ambient Water Loop | Immersive background audio |
 
 ---
 
@@ -33,45 +33,69 @@ Each location features:
 The project follows:
 - **Dublin Core Metadata Initiative (DCMI)**  
 - **Europeana Data Model (EDM)**  
-- **OAI-PMH (Open Archives Initiative Protocol for Metadata Harvesting)** — *the metadata structure is compatible with future OAI endpoints.*
+- **OAI-PMH (Open Archives Initiative Protocol for Metadata Harvesting)**  
+  → *Metadata structure is fully compatible with future OAI endpoints.*
 
-### Export Options:
-- 💾 **JSON Export:** full dataset (`Venice_Water_Memory_Collection.json`)
-- 🗂️ **Europeana XML Export:** Dublin Core formatted records (`Venice_Water_Memory_Collection_Europeana.xml`)
-
----
-
-## 🧠 AI Narrator
-
-A custom feature called **“Water Memory Narrator”** uses OpenAI’s GPT-4o model  
-to generate short poetic reflections about each water site.
-
-> Example prompt:  
-> “You are a poetic Venetian water narrator. Speak about this place’s memory in one paragraph.”
+### Export Options
+- 💾 **JSON Export:** `Venice_Water_Memory_Collection.json`  
+- 🗂️ **Europeana XML Export:** `Venice_Water_Memory_Collection_Europeana.xml`
 
 ---
 
-## 🌐 Future Roadmap
+## 🤖 AI Narrator — “Water Memory Voice”
 
-- [ ] Add multilingual AI narration (IT / EN / TR)  
-- [ ] Integrate **OAI-PMH API endpoint** (`/api/oai?verb=ListRecords`)  
-- [ ] Enable **SPARQL** metadata queries  
-- [ ] Add **voice narration (TTS)** in Italian  
-- [ ] Deploy to GitHub Pages or Vercel  
+A custom feature using **OpenAI GPT-4o mini**, accessed securely via local proxy.  
+When a user selects a water site, an AI-generated poetic narration appears.
 
----
+> **Example Prompt:**  
+> “You are a poetic Venetian water narrator. Speak briefly and emotionally about Venice’s relationship with water.”
 
-## 👤 Author
-
-**Berk Ateşalp**  
-Digital Heritage & Cultural Informatics Researcher  
-[GitHub: @BerkAtesalp](https://github.com/BerkAtesalp)
+This adds a narrative layer to heritage data — bridging **emotion, culture, and technology**.
 
 ---
 
-## 📜 License
+## 🧩 Technical Architecture
 
-This project is released under **CC BY 4.0** — feel free to remix and expand,  
-crediting the original “Venice Water Memory” dataset.
-
----
+```text
+                    ┌───────────────────────────────┐
+                    │        User Interface         │
+                    │  React + Leaflet + Framer UI  │
+                    │   • Interactive Venice Map    │
+                    │   • Story Panel (Sidebar)     │
+                    │   • Water Animation Layer     │
+                    └──────────────┬────────────────┘
+                                   │
+                      [User clicks on a water site]
+                                   │
+                    ┌──────────────▼────────────────┐
+                    │         StoryPanel.js          │
+                    │  • Displays archival metadata  │
+                    │  • Shows historical image      │
+                    │  • Calls AI Narrator           │
+                    └──────────────┬────────────────┘
+                                   │
+                     [Request to OpenAI via Proxy]
+                                   │
+                    ┌──────────────▼────────────────┐
+                    │        AIGenerator.js         │
+                    │  • Sends prompt to GPT-4o     │
+                    │  • Receives poetic narration  │
+                    │  • Returns text to panel      │
+                    └──────────────┬────────────────┘
+                                   │
+                     [Metadata Export Functionality]
+                                   │
+        ┌──────────────────────────┴──────────────────────────┐
+        │                     WaterMap.js                    │
+        │  • Displays all markers                            │
+        │  • JSON + Europeana XML export buttons             │
+        │  • Generates Dublin Core / OAI-PMH XML             │
+        └──────────────────────────┬──────────────────────────┘
+                                   │
+                   [Archival Standards Integration Layer]
+                                   │
+            ┌──────────────────────▼──────────────────────┐
+            │           Europeana / Dublin Core           │
+            │  • Dublin Core XML schema (dc:title, etc.)  │
+            │  • Future OAI-PMH endpoint (/api/oai)       │
+            └────────────────────────────────────────────┘
