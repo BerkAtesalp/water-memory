@@ -12,6 +12,11 @@ export const waterStories = [
     color: "#0077b6", // Lagoon Blue
     period: "17th–20th century",
     image: "/images/water/san_trovaso.jpg",
+    // 🎧 Ses dosyaları (kanal ve atölye ambiyansı)
+    sound: {
+      base: "/sounds/squero_water.mp3",  // suyun gondol kenarına vurduğu ses
+      fx: "/sounds/squero_tools.mp3"     // hafif marangozluk sesi
+    },
     sources: [
   {
     label: "Wikimedia Commons — Squero di San Trovaso (category)",
@@ -55,6 +60,10 @@ export const waterStories = [
     color: "#1a759f", // Canal Blue
     period: "16th–19th century",
     image: "/images/water/rio_dei_greci.jpg",
+    sound: {
+      base: "/sounds/re-greci_water.mp3",
+      fx: "/sounds/re-greci_bell.mp3"
+  },
     sources: [
   {
     label: "Hellenic Institute of Byzantine & Post-Byzantine Studies, Venice (Archive) – Digital Files",
@@ -98,6 +107,10 @@ export const waterStories = [
     color: "#468faf", // Misty Blue
     period: "17th–19th century",
     image: "/images/water/rio_della_fornace.jpg",
+    sound: {
+      
+      base: "/sounds/fornace_furnace.mp3"
+  },
     sources: [
   {
     label: "Wikipedia – Rio della Fornace (Venice canal)",
@@ -141,6 +154,10 @@ export const waterStories = [
     color: "#2c7da0", // Deeper Canal Blue
     period: "18th century",
     image: "/images/water/rio_del_magazen.jpg",
+    sound: {
+    base: "/sounds/magazen_water.mp3",
+    fx: "/sounds/magazen_harbor.mp3"
+  },
     sources: [
   {
     label: "Wikimedia Commons — Rio del Magazen, Venice",
@@ -184,6 +201,10 @@ export const waterStories = [
     color: "#023e8a", // Deep Ocean Blue
     period: "17th century",
     image: "/images/water/san_pantalon.jpg",
+    sound: {
+      base: "/sounds/pantolon_water.mp3",
+      fx: "/sounds/pantolon_bell.mp3"
+  },
     sources: [
   {
     label: "Wikimedia Commons — Rio de San Pantalon (Venice)",
@@ -227,6 +248,11 @@ export const waterStories = [
     color: "#03045e", // Venetian Midnight Blue
     period: "17th century",
     image: "/images/water/ponte_dei_sospiri.jpg",
+    sound: {
+      base: "/sounds/ponte_water.mp3",
+      
+  },
+
     sources: [
   {
     label: "Wikimedia Commons — Ponte dei Sospiri (Venice)",
@@ -270,6 +296,11 @@ export const waterStories = [
     color: "#1d3557", // Dark Indigo Blue
     period: "20th–21st century",
     image: "/images/water/libreria_acqua_alta.jpg",
+    sound: {
+      base: "/sounds/aqua_water.mp3",
+      fx: "/sounds/book_page.mp3"
+  
+},
     sources: [
   {
     label: "Libreria Acqua Alta Official Website – The Bookstore",
@@ -313,6 +344,10 @@ export const waterStories = [
     color: "#2c7da0", // Canal Blue
     period: "17th–19th century",
     image: "/images/water/fontego_dei_turchi.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3",
+      
+  },
     sources: [
   {
     label: "Wikipedia — Fondaco dei Turchi",
@@ -356,6 +391,13 @@ export const waterStories = [
     color: "#1a759f", // Harbour Blue
     period: "11th–21st century",
     image: "/images/water/rialto_market.jpg",
+    sound: {
+      base: "/sounds/rialto_water.mp3",
+      fx: "/sounds/seagull_rialto.mp3",
+      ambience: "/sounds/people_rialto.mp3"
+},
+
+    
     sources: [
   {
     label: "Images of Venice – Rialto Fish Market History & Architecture",
@@ -399,6 +441,10 @@ export const waterStories = [
     color: "#468faf", // Misty Blue
     period: "15th–19th century",
     image: "/images/water/pozzo_santa_maria_formosa.jpg",
+    sound: {
+      base: "/sounds/dicampo.mp3",
+     
+},
     sources: [
   {
     label: "Visit Venezia – Vera da pozzo: silent witnesses of the history of Venice",
@@ -442,6 +488,11 @@ export const waterStories = [
     color: "#0077b6", // Lagoon Blue
     period: "16th century",
     image: "/images/water/ponte_di_rialto.jpg",
+    sound: {
+      base: "/sounds/ponte_di_rialto.mp3",
+     
+},
+
     sources: [
   {
     label: "Wikipedia — Ponte di Rialto",
@@ -480,11 +531,18 @@ export const waterStories = [
     name: "Arsenale & Bucintoro Dock",
     coordinates: [45.4396, 12.3531],
     story:
-      "Within the Venetian Arsenal, the Bucintoro — the Doge’s ceremonial ship — was constructed. Each year during the Festa della Sensa, it sailed from this dock to 'marry' the sea in a ritual affirming Venice’s dominion over the waters.",
-    type: "Ceremonial Maritime Heritage",
+      "The Venetian Arsenale was not only a center of naval innovation and shipbuilding, but also the birthplace of the Doge’s ceremonial vessel, the Bucintoro — a symbol of Venice’s sacred marriage with the sea.",
+
+    type: "Industrial & Ceremonial Maritime Heritage",
     color: "#023e8a", // Deep Ocean Blue
     period: "12th–18th century",
     image: "/images/water/arsenale_di_venezia.jpg",
+    sound: {
+      base: "/sounds/arsenale_water.mp3",
+      fx: "/sounds/arsenale_ceremony.mp3"
+  
+},
+    
     sources: [
   {
     label: "Wikipedia — Arsenale di Venezia",
@@ -528,6 +586,12 @@ export const waterStories = [
     color: "#1a759f", // Canal Blue
     period: "1000–19th century",
     image: "/images/water/festa_della_sensa.jpg",
+    sound: {
+      base: "/sounds/festa_water.mp3",
+      fx: "/sounds/festa_bella.mp3"
+  
+},
+    
     sources: [
   {
     label: "Wikipedia — Festa della Sensa",
@@ -571,6 +635,10 @@ export const waterStories = [
     color: "#2c7da0", // Muted Sea Blue
     period: "15th–19th century",
     image: "/images/water/san_barnaba.jpg",
+    sound: {
+      base: "/sounds/urban_water.mp3"
+  
+},
     sources: [
   {
     label: "Wikipedia — Campo San Barnaba",
@@ -614,6 +682,11 @@ export const waterStories = [
     color: "#468faf", // Misty Lagoon Blue
     period: "13th–19th century",
     image: "/images/water/murano_glass_canal.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
+
     sources: [
   {
     label: "Europeana — Murano Glass Collections",
@@ -657,6 +730,10 @@ export const waterStories = [
     color: "#023e8a",
     period: "21st century",
     image: "/images/water/mose_barriers.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
     sources: [
   {
     label: "Wikipedia — MOSE flood barrier system",
@@ -700,6 +777,10 @@ export const waterStories = [
     color: "#0077b6",
     period: "15th–19th century",
     image: "/images/water/punta_della_dogana.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
     sources: [
   {
     label: "Wikipedia — Punta della Dogana",
@@ -743,6 +824,10 @@ export const waterStories = [
     color: "#1a759f",
     period: "16th–21st century",
     image: "/images/water/burano_canals.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
     sources: [
   {
     label: "SeeVenice – Fishermen in Burano and the Venetian Lagoon",
@@ -786,6 +871,10 @@ export const waterStories = [
     color: "#2c7da0",
     period: "5th–10th century",
     image: "/images/water/torcello_island.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
     sources: [
   {
     label: "Wikipedia — Torcello",
@@ -829,6 +918,10 @@ export const waterStories = [
     color: "#03045e",
     period: "16th–18th century",
     image: "/images/water/pozzi_prisons.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
     sources: [
   {
     label: "Fondazione Musei Civici di Venezia – Prisons of the Doge’s Palace (Pozzi & Piombi)",
@@ -872,6 +965,10 @@ export const waterStories = [
     color: "#023e8a",
     period: "17th century",
     image: "/images/water/santa_maria_salute.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
     sources: [
   {
     label: "Wikipedia — Santa Maria della Salute",
@@ -915,6 +1012,10 @@ export const waterStories = [
     color: "#0077b6",
     period: "10th–20th century",
     image: "/images/water/lido_di_venezia.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
     sources: [
   {
     label: "Wikipedia — Lido di Venezia",
@@ -958,6 +1059,11 @@ export const waterStories = [
     color: "#1a759f",
     period: "15th century",
     image: "/images/water/san_zaccaria_flooded.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
+
     sources: [
   {
     label: "Atlas Obscura — The Flooded Crypt of San Zaccaria",
@@ -1001,6 +1107,10 @@ export const waterStories = [
     color: "#2c7da0",
     period: "15th century",
     image: "/images/water/cadoro.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+  
+},
     sources: [
   {
     label: "Wikipedia — Ca’ d’Oro",
@@ -1044,6 +1154,11 @@ export const waterStories = [
     color: "#468faf", // Misty Lagoon Blue
     period: "16th–21st century",
     image: "/images/water/la_festa_del.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3",
+      fx: "/sounds/festa_bella.mp3"
+  
+},
     image:
       "https://upload.wikimedia.org/wikipedia/commons/2/2c/Festa_del_Redentore_2018.jpg",
     sources: [
@@ -1089,6 +1204,10 @@ export const waterStories = [
     color: "#2c7da0",
     period: "14th–19th century",
     image: "/images/water/riva_degli_schiavoni.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+      
+},
     image:
       "https://upload.wikimedia.org/wikipedia/commons/4/45/Riva_degli_Schiavoni_Venice.jpg",
     sources: [
@@ -1134,6 +1253,10 @@ export const waterStories = [
     color: "#03045e",
     period: "17th century",
     image: "/images/water/chiesa_Di.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+      
+},
     sources: [
   {
     label: "Wikipedia — Chiesa di San Moisè",
@@ -1177,6 +1300,10 @@ export const waterStories = [
     color: "#0077b6",
     period: "18th–21st century",
     image: "/images/water/pellestrina.jpg",
+    sound: {
+      base: "/sounds/fontego_water.mp3"
+      
+},
     sources: [
   {
     label: "Venice Unica – Pellestrina: a peaceful island, home to fishermen and lacemakers",

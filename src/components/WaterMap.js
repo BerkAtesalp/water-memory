@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import { motion } from "framer-motion";
 import { waterStories } from "../data/waterStories";
 import StoryPanel from "./StoryPanel";
-import { downloadOaiXml } from "../oai"; // ✅ OAI-PMH export eklendi
+import { downloadOaiXml } from "../oai";
 import "leaflet/dist/leaflet.css";
 
 // 💾 Europeana XML olarak tüm hikâyeleri dışa aktar
@@ -38,15 +38,16 @@ const exportAllToEuropeanaXML = () => {
 
 function WaterMap() {
   const [selectedStory, setSelectedStory] = useState(null);
-  const audioRef = useRef(new Audio("/sounds/water.mp3"));
+  const baseAudioRef = useRef(null);
+  const fxAudioRef = useRef(null);
 
   // 🎧 Arka plan su sesi
   useEffect(() => {
-    const audio = audioRef.current;
-    audio.loop = true;
-    audio.volume = 0.15;
-    audio.play().catch(() => {});
-    return () => audio.pause();
+    const ambient = new Audio("/sounds/water.mp3");
+    ambient.loop = true;
+    ambient.volume = 0.1;
+    ambient.play().catch(() => {});
+    return () => ambient.pause();
   }, []);
 
   // 💾 Tüm metadata'yı indir (koleksiyon olarak)
@@ -82,6 +83,39 @@ function WaterMap() {
     a.download = "Venice_Water_Memory_Collection.json";
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  // 📍 Noktaya tıklanınca ses oynat
+  const handleMarkerClick = (s) => {
+    setSelectedStory(s);
+
+    // 🔇 Önceki sesleri durdur
+    if (baseAudioRef.current) baseAudioRef.current.pause();
+    if (fxAudioRef.current) fxAudioRef.current.pause();
+
+    // 🔊 Yeni sesleri başlat
+    if (s.sound?.base) {
+      const base = new Audio(s.sound.base);
+      base.loop = true;
+      base.volume = 0.25;
+      base.play().catch(() => {});
+      baseAudioRef.current = base;
+    }
+
+    if (s.sound?.fx) {
+      const fx = new Audio(s.sound.fx);
+      fx.loop = true;
+      fx.volume = 0.15;
+      fx.play().catch(() => {});
+      fxAudioRef.current = fx;
+    }
+  };
+
+  // 📕 Panel kapatılınca sesleri durdur
+  const handleClosePanel = () => {
+    setSelectedStory(null);
+    if (baseAudioRef.current) baseAudioRef.current.pause();
+    if (fxAudioRef.current) fxAudioRef.current.pause();
   };
 
   return (
@@ -160,17 +194,13 @@ function WaterMap() {
           attribution="&copy; OpenStreetMap contributors"
         />
 
-        {/* 💧 Noktalar */}
         {waterStories.map((s) => (
           <CircleMarker
             key={s.id}
             center={s.coordinates}
             radius={10}
             eventHandlers={{
-              click: () => {
-                setSelectedStory(s);
-                audioRef.current.play().catch(() => {});
-              },
+              click: () => handleMarkerClick(s),
             }}
             pathOptions={{
               color: s.color,
@@ -207,10 +237,7 @@ function WaterMap() {
       />
 
       {/* 🪶 Story Panel */}
-      <StoryPanel
-        storyData={selectedStory}
-        onClose={() => setSelectedStory(null)}
-      />
+      <StoryPanel storyData={selectedStory} onClose={handleClosePanel} />
 
       {/* 📜 UNESCO Water Heritage etiketi */}
       <div

@@ -1,32 +1,44 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function AIGenerator({ storyData }) {
   const [aiStory, setAiStory] = useState("");
   const [loading, setLoading] = useState(false);
 
-   useEffect(() => {
+  // Nokta değiştiğinde AI metnini sıfırla
+  useEffect(() => {
     setAiStory("");
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
   }, [storyData]);
 
+  // 🗣️ Seslendirme fonksiyonu
+  const speakText = (text) => {
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-GB"; // 🇬🇧 İngilizce, istersen "it-IT"
+      utterance.rate = 1.0;
+      utterance.pitch = 1.1;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("Speech synthesis not supported on this browser.");
+    }
+  };
 
+  // 🎨 AI hikayesini üret
   const generateStory = async () => {
     console.log("API key var mı?", process.env.REACT_APP_OPENAI_KEY);
     setLoading(true);
     try {
       const response = await fetch("http://localhost:5000/api/generate", {
-
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.REACT_APP_OPENAI_KEY}`,
-
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "gpt-4o-mini",
           messages: [
             {
               role: "system",
-              content: "You are a poetic Venetian water narrator who speaks briefly and emotionally about Venice's relationship with water.",
+              content:
+                "You are a poetic Venetian water narrator who speaks briefly and emotionally about Venice's relationship with water.",
             },
             {
               role: "user",
@@ -38,9 +50,13 @@ export default function AIGenerator({ storyData }) {
       });
 
       const data = await response.json();
-      console.log("🔥 API response:", data); // gelen cevabı görmek için
-      setAiStory(data?.choices?.[0]?.message?.content || data?.error?.message || "No story generated.");
+      console.log("🔥 API response:", data);
 
+      setAiStory(
+        data?.choices?.[0]?.message?.content ||
+          data?.error?.message ||
+          "No story generated."
+      );
     } catch (error) {
       console.error(error);
       setAiStory("Sorry, I couldn’t generate a narration right now.");
@@ -60,7 +76,7 @@ export default function AIGenerator({ storyData }) {
           border: "none",
           padding: "8px 14px",
           borderRadius: "6px",
-          cursor: "pointer",
+          cursor: loading ? "not-allowed" : "pointer",
           width: "100%",
           fontWeight: "500",
         }}
@@ -81,6 +97,24 @@ export default function AIGenerator({ storyData }) {
           }}
         >
           {aiStory}
+
+          {/* 🔊 Seslendirme butonu */}
+          <button
+            onClick={() => speakText(aiStory)}
+            style={{
+              marginTop: "10px",
+              backgroundColor: "#00b4d8",
+              color: "white",
+              border: "none",
+              padding: "8px 12px",
+              borderRadius: "6px",
+              cursor: "pointer",
+              width: "100%",
+              fontWeight: "500",
+            }}
+          >
+            🔊 Listen to Narration
+          </button>
         </div>
       )}
     </div>
