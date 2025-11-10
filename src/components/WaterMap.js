@@ -3,10 +3,9 @@ import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import { motion } from "framer-motion";
 import { waterStories } from "../data/waterStories";
 import StoryPanel from "./StoryPanel";
-import { downloadOaiXml } from "../oai";
+import { downloadOaiXml } from "../oai"; // ✅ OAI-PMH export eklendi
 import "leaflet/dist/leaflet.css";
 
-// 💾 Europeana XML olarak tüm hikâyeleri dışa aktar
 const exportAllToEuropeanaXML = () => {
   const xmlRecords = waterStories
     .map(
@@ -28,7 +27,6 @@ const exportAllToEuropeanaXML = () => {
     .join("\n");
 
   const fullXML = `<?xml version="1.0" encoding="UTF-8"?>\n<collection>\n${xmlRecords}\n</collection>`;
-
   const blob = new Blob([fullXML], { type: "application/xml" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
@@ -38,19 +36,17 @@ const exportAllToEuropeanaXML = () => {
 
 function WaterMap() {
   const [selectedStory, setSelectedStory] = useState(null);
-  const baseAudioRef = useRef(null);
-  const fxAudioRef = useRef(null);
+  const [selectedPeriod, setSelectedPeriod] = useState("All");
+  const audioRef = useRef(new Audio("/sounds/water.mp3"));
 
-  // 🎧 Arka plan su sesi
   useEffect(() => {
-    const ambient = new Audio("/sounds/water.mp3");
-    ambient.loop = true;
-    ambient.volume = 0.1;
-    ambient.play().catch(() => {});
-    return () => ambient.pause();
+    const audio = audioRef.current;
+    audio.loop = true;
+    audio.volume = 0.15;
+    audio.play().catch(() => {});
+    return () => audio.pause();
   }, []);
 
-  // 💾 Tüm metadata'yı indir (koleksiyon olarak)
   const downloadAllMetadata = () => {
     const collection = {
       datasetTitle: "Venice Water Memory Collection",
@@ -85,103 +81,116 @@ function WaterMap() {
     URL.revokeObjectURL(url);
   };
 
-  // 📍 Noktaya tıklanınca ses oynat
-  const handleMarkerClick = (s) => {
-    setSelectedStory(s);
-
-    // 🔇 Önceki sesleri durdur
-    if (baseAudioRef.current) baseAudioRef.current.pause();
-    if (fxAudioRef.current) fxAudioRef.current.pause();
-
-    // 🔊 Yeni sesleri başlat
-    if (s.sound?.base) {
-      const base = new Audio(s.sound.base);
-      base.loop = true;
-      base.volume = 0.25;
-      base.play().catch(() => {});
-      baseAudioRef.current = base;
-    }
-
-    if (s.sound?.fx) {
-      const fx = new Audio(s.sound.fx);
-      fx.loop = true;
-      fx.volume = 0.15;
-      fx.play().catch(() => {});
-      fxAudioRef.current = fx;
-    }
-  };
-
-  // 📕 Panel kapatılınca sesleri durdur
-  const handleClosePanel = () => {
-    setSelectedStory(null);
-    if (baseAudioRef.current) baseAudioRef.current.pause();
-    if (fxAudioRef.current) fxAudioRef.current.pause();
-  };
-
   return (
     <div style={{ height: "100vh", width: "100vw", position: "relative" }}>
-      {/* 💾 Export All Metadata (JSON) */}
-      <button
-        onClick={downloadAllMetadata}
+      {/* 🕰️ Filter by Period */}
+      <div
         style={{
           position: "absolute",
           top: "20px",
           right: "20px",
           zIndex: 1000,
-          backgroundColor: "#0077b6",
-          color: "white",
-          border: "none",
+          background: "rgba(255,255,255,0.95)",
           borderRadius: "8px",
-          padding: "10px 18px",
-          cursor: "pointer",
-          fontWeight: "500",
+          padding: "8px 12px",
           boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
+          display: "flex",
+          alignItems: "center",
+          gap: "6px",
+          border: "1px solid rgba(0,0,0,0.1)",
         }}
       >
-        💾 Export All Metadata (JSON)
-      </button>
+        <span
+          style={{
+            fontSize: "13px",
+            fontWeight: "600",
+            color: "#023e8a",
+          }}
+        >
+          Filter by Period:
+        </span>
+        <select
+          value={selectedPeriod}
+          onChange={(e) => setSelectedPeriod(e.target.value)}
+          style={{
+            padding: "6px 10px",
+            borderRadius: "6px",
+            border: "1px solid #0077b6",
+            fontSize: "13px",
+            background: "white",
+            cursor: "pointer",
+          }}
+        >
+          <option value="All">All</option>
+          <option value="15th">15th Century</option>
+          <option value="16th">16th Century</option>
+          <option value="17th">17th Century</option>
+          <option value="18th">18th Century</option>
+          <option value="19th">19th Century</option>
+          <option value="20th">20th Century</option>
+        </select>
+      </div>
 
-      {/* 🗂️ Export All as Europeana XML */}
-      <button
-        onClick={exportAllToEuropeanaXML}
+      {/* 💾 Export Buttons — arada mesafe bırakıldı */}
+      <div
         style={{
           position: "absolute",
-          top: "70px",
+          top: "90px", // ⬅️ filtre ile exportlar arası mesafe
           right: "20px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "10px",
           zIndex: 1000,
-          backgroundColor: "#023e8a",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          padding: "10px 18px",
-          cursor: "pointer",
-          fontWeight: "500",
-          boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
         }}
       >
-        🗂️ Export All as Europeana XML
-      </button>
+        <button
+          onClick={downloadAllMetadata}
+          style={{
+            backgroundColor: "#0077b6",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            padding: "10px 18px",
+            cursor: "pointer",
+            fontWeight: "500",
+            boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
+          }}
+        >
+          💾 Export All Metadata (JSON)
+        </button>
 
-      {/* 🪶 Export as OAI-PMH XML */}
-      <button
-        onClick={downloadOaiXml}
-        style={{
-          position: "absolute",
-          top: "120px",
-          right: "20px",
-          zIndex: 1000,
-          backgroundColor: "#007f5f",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          padding: "10px 18px",
-          cursor: "pointer",
-          fontWeight: "500",
-          boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
-        }}
-      >
-        🪶 Export OAI-PMH XML
-      </button>
+        <button
+          onClick={exportAllToEuropeanaXML}
+          style={{
+            backgroundColor: "#023e8a",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            padding: "10px 18px",
+            cursor: "pointer",
+            fontWeight: "500",
+            boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
+          }}
+        >
+          🗂️ Export All as Europeana XML
+        </button>
+
+        <button
+          onClick={downloadOaiXml}
+          style={{
+            backgroundColor: "#007f5f",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            padding: "10px 18px",
+            cursor: "pointer",
+            fontWeight: "500",
+            boxShadow: "0 3px 6px rgba(0,0,0,0.25)",
+          }}
+        >
+          🪶 Export OAI-PMH XML
+        </button>
+      </div>
 
       {/* 🗺️ Harita */}
       <MapContainer
@@ -194,30 +203,40 @@ function WaterMap() {
           attribution="&copy; OpenStreetMap contributors"
         />
 
-        {waterStories.map((s) => (
-          <CircleMarker
-            key={s.id}
-            center={s.coordinates}
-            radius={10}
-            eventHandlers={{
-              click: () => handleMarkerClick(s),
-            }}
-            pathOptions={{
-              color: s.color,
-              fillColor: s.color,
-              fillOpacity: 0.8,
-            }}
-          >
-            <Popup>
-              <h3>{s.name}</h3>
-              <p style={{ fontStyle: "italic" }}>{s.type}</p>
-              <p>{s.story.slice(0, 80)}...</p>
-              <p style={{ color: s.color, fontWeight: "bold" }}>
-                Click the marker to read more →
-              </p>
-            </Popup>
-          </CircleMarker>
-        ))}
+        {/* 💧 Noktalar (filtreli) */}
+        {waterStories
+          .filter(
+            (s) =>
+              selectedPeriod === "All" ||
+              (s.period && s.period.includes(selectedPeriod))
+          )
+          .map((s) => (
+            <CircleMarker
+              key={s.id}
+              center={s.coordinates}
+              radius={10}
+              eventHandlers={{
+                click: () => {
+                  setSelectedStory(s);
+                  audioRef.current.play().catch(() => {});
+                },
+              }}
+              pathOptions={{
+                color: s.color,
+                fillColor: s.color,
+                fillOpacity: 0.8,
+              }}
+            >
+              <Popup>
+                <h3>{s.name}</h3>
+                <p style={{ fontStyle: "italic" }}>{s.type}</p>
+                <p>{s.story.slice(0, 80)}...</p>
+                <p style={{ color: s.color, fontWeight: "bold" }}>
+                  Click the marker to read more →
+                </p>
+              </Popup>
+            </CircleMarker>
+          ))}
       </MapContainer>
 
       {/* 🌊 Hafif su efekti */}
@@ -237,7 +256,10 @@ function WaterMap() {
       />
 
       {/* 🪶 Story Panel */}
-      <StoryPanel storyData={selectedStory} onClose={handleClosePanel} />
+      <StoryPanel
+        storyData={selectedStory}
+        onClose={() => setSelectedStory(null)}
+      />
 
       {/* 📜 UNESCO Water Heritage etiketi */}
       <div
